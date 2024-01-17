@@ -1,0 +1,25 @@
+# action.yml
+name: "extract-vendir-version"
+description: "Creates new version of bosh release"
+
+inputs:
+  vendir_file:
+    description: "Github repository used to publish releases."
+    required: false
+    default: ./vendir.yml
+  library:
+    description: "Package to look for version"
+    required: true
+  type:
+    description: "type of library to extract version from. Supported type: githubRelease"
+    defaut: "githubRelease"
+  debug:
+    description: "Set to 1 to enable debug mode"
+    default: 0
+outputs:
+  version:
+    description: "version of the library extracted"
+
+runs:
+  using: "docker"
+  image: "Dockerfile" # We should be able to use this action without explict commit using 'orangecloudfoundry/create-bosh-release-action@master'

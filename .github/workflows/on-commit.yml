@@ -1,0 +1,33 @@
+name: on-commit
+
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  build:
+    name: "Test dev and final release creation"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        id: checkout_repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Test extraction
+        id: test_extraction
+        uses: ./
+        with:
+          vendir_file: ./test/k3s-vendir.yml
+          library: "k3s-io/k3s"
+      - name: Generated test dev files status
+        run: |
+          echo "Checking if $EXTRACTED_VERSION (extracted) == $EXPECTED_VERSION (expected)"
+          if [[ "$EXTRACTED_VERSION" == "$EXPECTED_VERSION" ];then
+            echo "OK"
+          else
+            echo "KO"
+            exit 1
+          fi
+        env:
+          EXTRACTED_VERSION: "${{ steps.test_extraction.outputs.version }}"
+          EXPECTED_VERSION: "v1.26.0+k3s1"
