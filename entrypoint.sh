@@ -25,8 +25,12 @@ printf '.directories[0].contents[] | select (.path=="'$INPUT_LIBRARY'") | '>filt
 printf "$filter" >>filter.query
 cat filter.query
 version=$(yq -r --from-file filter.query "$INPUT_VENDIR_FILE")
+echo ""
 
-
+if [ -z "$version" ];then
+  echo "::error file=$INPUT_VENDIR_FILE ::$GITHUB_ACTION: Failed to extract version for $INPUT_LIBRARY"
+  exit 1
+fi
 # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
 echo "version=${version}" >> "$GITHUB_OUTPUT"
 
