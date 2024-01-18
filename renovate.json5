@@ -4,6 +4,7 @@
     'config:base',
     ':disableRateLimiting',
   ],
+  automergeStrategy: "merge-commit",
   baseBranches: [
     // don't run on renovate branches
     "$default",
@@ -24,7 +25,10 @@
     {
       // Add checksums extraction tip to yq packaqe
       matchDepNames: "mikefarah/yq",
-      prBodyNotes: ["To easily extract checksums: curl -sSL https://github.com/mikefarah/yq/releases/download/v{{version}}/checksums |grep \"yq_linux_amd64 \"|cut -d' ' -f37"]
+      prBodyNotes: ["To easily extract checksums: curl -sSL https://github.com/mikefarah/yq/releases/download/v{{version}}/checksums |grep \"yq_linux_amd64 \"|cut -d' ' -f37"],
+      automerge: true,
+      //see https://docs.renovatebot.com/key-concepts/automerge/#absence-of-tests
+      ignoreTests: true
     }
   ],
   regexManagers: [
