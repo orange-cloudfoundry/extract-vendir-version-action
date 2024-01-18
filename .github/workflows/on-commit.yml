@@ -21,13 +21,33 @@ jobs:
           library: "k3s-io/k3s"
       - name: Check version extraction from github release
         run: |
-          echo "Checking if $EXTRACTED_VERSION (extracted) == $EXPECTED_VERSION (expected)"
+          echo "Checking if <$EXTRACTED_VERSION> (extracted) == <$EXPECTED_VERSION> (expected)"
           if [[ "$EXTRACTED_VERSION" == "$EXPECTED_VERSION" ]];then
             echo "OK"
           else
-            echo "KO"
+            echo "::error file=$INPUT_VENDIR_FILE ::$GITHUB_ACTION: Inconsistency detected <$EXTRACTED_VERSION> (extracted) != <$EXPECTED_VERSION> (expected)"
             exit 1
           fi
         env:
           EXTRACTED_VERSION: "${{ steps.test_extraction.outputs.version }}"
           EXPECTED_VERSION: "v1.26.0+k3s1"
+      - name: Test extraction failure
+        id: test_extraction_failure
+        continue-on-error: true
+        uses: ./
+        with:
+          vendir_file: ./test/k3s-vendir.yml
+          library: "dummy/library"
+      - name: Check version extraction failure
+        run: |
+          echo "Checking if <$EXTRACTED_VERSION> (extracted) == <$EXPECTED_VERSION> (expected)"
+          if [[ "$EXTRACTED_VERSION" == "$EXPECTED_VERSION" ]];then
+            echo "OK"
+          else
+            echo "::error file=$INPUT_VENDIR_FILE ::$GITHUB_ACTION: Inconsistency detected <$EXTRACTED_VERSION> (extracted) != <$EXPECTED_VERSION> (expected)"
+            exit 1
+          fi
+        env:
+          EXTRACTED_VERSION: "${{ steps.test_extraction_failure.outputs.version }}"
+          EXPECTED_VERSION: ""
+
