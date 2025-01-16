@@ -17,7 +17,7 @@
         'manager/{{manager}}',
       ],
       matchDepNames: [
-        '/*/',
+        '*',
       ],
     },
     {
