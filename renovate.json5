@@ -1,7 +1,7 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    'config:base',
+    'config:best-practices',
     ':disableRateLimiting',
   ],
   automergeStrategy: "merge-commit",
@@ -14,7 +14,7 @@
   packageRules: [
     {
       description: "Add common labels",
-      matchDepPatterns: ["*"],
+      matchDepNames: ["*"],
       addLabels: [
         // See full list of fields available at https://docs.renovatebot.com/templates/#other-available-fields
         "datasource/{{datasource}}",
