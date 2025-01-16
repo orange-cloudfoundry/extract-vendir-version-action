@@ -31,8 +31,9 @@
       ignoreTests: true
     }
   ],
-  regexManagers: [
+  customManagers: [
     {
+      customType: 'regex',
       fileMatch: ["Dockerfile$"],
       "matchStrings": [
         // For dockerfile: https://regex101.com/r/iJfnnL/1
