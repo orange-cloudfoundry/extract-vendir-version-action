@@ -3,7 +3,7 @@ FROM alpine@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f
 RUN apk add git curl jq bash
 
 # renovate: datasource=github-releases depName=mikefarah/yq
-ENV YQ_VERSION="4.52.4"
+ENV YQ_VERSION="4.52.5"
 RUN echo "Installing yq version ${YQ_VERSION}" ; \
     curl -L "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_amd64" -o /usr/local/bin/yq && \
     chmod +rx /usr/local/bin/yq && \
